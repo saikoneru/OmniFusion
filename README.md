@@ -4,6 +4,10 @@ Guide on how to run **OmniFusionModel** for image, audio, and text inference wit
 
 ---
 
+You can find the released **OmniFusion** model checkpoint here:
+
+🔗 **HuggingFace Model:** https://huggingface.co/skoneru/OmniFusion
+
 ## 1. Installation
 
 ### Step 1 — Clone the Repository
