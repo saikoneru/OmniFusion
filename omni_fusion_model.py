@@ -173,8 +173,8 @@ class OmniFusionModel:
         )
         batch_inputs["beam_size"] = num_beams
 
-        model_eos = tokenizer.eos_token_id
-        newline_id = tokenizer.convert_tokens_to_ids("\n")[0]
+        model_eos = self.tokenizer.eos_token_id
+        newline_id = self.tokenizer.convert_tokens_to_ids("\n")[0]
         
         # Generate output text
         with torch.inference_mode():
