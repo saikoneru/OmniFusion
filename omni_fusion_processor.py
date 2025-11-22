@@ -78,10 +78,7 @@ class OmniFusionProcessor:
             content = [
                 {
                     "type": "text",
-                    "text": (
-                        "Transcribe the audio using the image for context. "
-                        "Perform OCR for names or special terms:"
-                    ),
+                    "text": "Transcribe the audio using the image for context along with OCR on it for spelling keywords and names: "
                 }
             ]
 
