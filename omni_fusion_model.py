@@ -186,7 +186,7 @@ class OmniFusionModel:
                 do_sample=False,
                 num_return_sequences=1,
                 no_repeat_ngram_size=5,
-                eos_token_id=[model_eos, newline_id],
+                # eos_token_id=[model_eos, newline_id], ## In case you want to stop at new line as well
             )
             print(f"Generation time: {time.time() - start:.2f}s")
 
