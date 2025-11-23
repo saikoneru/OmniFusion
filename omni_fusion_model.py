@@ -142,6 +142,7 @@ class OmniFusionModel:
         use_cot: bool = False,
         num_beams: int = 5,
         max_new_tokens: int = 256,
+        eos_newline: bool = False,
     ) -> List[str]:
         """
         Perform batch multimodal translation or speech transcription.
@@ -175,10 +176,16 @@ class OmniFusionModel:
 
         model_eos = self.tokenizer.eos_token_id
         newline_id = self.tokenizer.convert_tokens_to_ids("\n")
+
+        if eos_newline:
+            eos_token_ids = [newline_id, model_eos]
+        else:
+            eos_token_ids = [model_eos]
         
         # Generate output text
         with torch.inference_mode():
             start = time.time()
+            
             output = self.fuse_model.generate(
                 **batch_inputs,
                 max_new_tokens=max_new_tokens,
@@ -186,7 +193,7 @@ class OmniFusionModel:
                 do_sample=False,
                 num_return_sequences=1,
                 no_repeat_ngram_size=5,
-                # eos_token_id=[model_eos, newline_id], ## In case you want to stop at new line as well
+                eos_token_id=eos_token_ids, ## In case you want to stop at new line as well
             )
             print(f"Generation time: {time.time() - start:.2f}s")
 
