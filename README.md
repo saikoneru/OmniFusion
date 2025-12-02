@@ -6,14 +6,38 @@
 **Sai Koneru, Matthias Huck, Jan Niehues**
 
 [![arXiv](https://img.shields.io/badge/arXiv-2512.00234-b31b1b.svg)](https://arxiv.org/abs/2512.00234)
+[![HuggingFace Paper](https://img.shields.io/badge/HF%20Paper-2512.00234-ffcc00.svg)](https://huggingface.co/papers/2512.00234)
+[![GitHub](https://img.shields.io/badge/GitHub-OmniFusion-181717.svg)](https://github.com/saikoneru/OmniFusion)
+[![HuggingFace Model](https://img.shields.io/badge/HF%20Model-OmniFusion-ff6f00.svg)](https://huggingface.co/skoneru/OmniFusion)
+
+Guide on how to run **OmniFusion** for image, audio, and text inference with code or as gradio demo.
 
 ---
 
-Guide on how to run **OmniFusionModel** for image, audio, and text inference with code or as gradio demo.
+## 🎥 Demo: Integration in KIT Lecture Translator
 
-You can find the released **OmniFusion** model checkpoint here:
+This demo illustrates how **OmniFusion** can be integrated for:
 
-🔗 **HuggingFace Model:** https://huggingface.co/skoneru/OmniFusion
+- **Simultaneous Multimodal Speech Translation**  
+  (speech → text translation during live lectures)
+
+- **Slide Translation**  
+  using the *Image Translator*  for image → image translation in slides
+
+
+<div style="width: 800px; height: 400px; margin: 0 auto;">
+  <video autoplay muted loop controls playsinline style="width: 100%; height: 100%; object-fit: contain;">
+    <source src="https://huggingface.co/skoneru/OmniFusion/resolve/main/boom_lt.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+Related systems and references:
+- Image Translator (for slide translation): https://github.com/saikoneru/image-translator  
+- KIT Lecture Translator middleware: https://gitlab.kit.edu/kit/isl-ai4lt/lt-middleware/ltpipeline  
+- LT system paper (EMNLP 2023 Demo): https://aclanthology.org/2023.emnlp-demo.2.pdf
+- BOOM: Beyond Only One Modality KIT's Multilingual Multimodal Lecture Companion (in review)
+
 
 ## Note
 
@@ -26,10 +50,6 @@ What the model is **not** trained for:
 
 1. Multi Speaker Noisy Audio Speech Translation
 2. Text in Image Translation (we observe tendency to do OCR or translate whole text when given partial input)
-
-If you want text in image or have noisy input, please try https://huggingface.co/skoneru/OmniFusion_v2
-
-Make sure to send semantically complete phrase for Text in Image translation. Otherwise, expect the model to sometimes generate the full OCR or translation.
 
 ## 1. Installation
 
@@ -112,5 +132,4 @@ print("Translation:", translations[0])
 
 > **Note:**  
 > `source_text` should only be used when **no audio** is provided.  
-> If `audio_paths` contains any audio input, then `source_text` **must be an empty string** (`""`) as it will be ignored.  
-
+> If `audio_paths` contains any audio input, then `source_text` **must be an empty string** (`""`) as it will be ignored.
