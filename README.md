@@ -46,6 +46,10 @@ What the model is **not** trained for:
 1. Multi Speaker Noisy Audio Speech Translation
 2. Text in Image Translation (we observe tendency to do OCR or translate whole text when given partial input)
 
+If you want text in image or have noisy input, please try https://huggingface.co/skoneru/OmniFusion_v2
+
+Make sure to send semantically complete phrase for Text in Image translation. Otherwise, expect the model to sometimes generate the full OCR or translation.
+
 ## 1. Installation
 
 ### Step 1 — Clone the Repository
