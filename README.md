@@ -25,12 +25,7 @@ This demo illustrates how **OmniFusion** can be integrated for:
   using the *Image Translator*  for image → image translation in slides
 
 
-<div style="width: 800px; height: 400px; margin: 0 auto;">
-  <video autoplay muted loop controls playsinline style="width: 100%; height: 100%; object-fit: contain;">
-    <source src="https://huggingface.co/skoneru/OmniFusion/resolve/main/boom_lt.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+[![Watch Demo](https://img.shields.io/badge/Watch%20Demo-%F0%9F%8E%A5-orange)](https://huggingface.co/skoneru/OmniFusion#%F0%9F%8E%A5-demo-integration-in-kit-lecture-translator)
 
 Related systems and references:
 - Image Translator (for slide translation): https://github.com/saikoneru/image-translator  
