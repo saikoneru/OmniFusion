@@ -1,8 +1,15 @@
 # OmniFusion 
 
-Guide on how to run **OmniFusionModel** for image, audio, and text inference with code or as gradio demo.
+## 📄 Publication
+
+### OmniFusion: Simultaneous Multilingual Multimodal Translations via Modular Fusion  
+**Sai Koneru, Matthias Huck, Jan Niehues**
+
+[![arXiv](https://img.shields.io/badge/arXiv-2512.00234-b31b1b.svg)](https://arxiv.org/abs/2512.00234)
 
 ---
+
+Guide on how to run **OmniFusionModel** for image, audio, and text inference with code or as gradio demo.
 
 You can find the released **OmniFusion** model checkpoint here:
 
