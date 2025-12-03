@@ -31,7 +31,7 @@ Related systems and references:
 - Image Translator (for slide translation): https://github.com/saikoneru/image-translator  
 - KIT Lecture Translator middleware: https://gitlab.kit.edu/kit/isl-ai4lt/lt-middleware/ltpipeline  
 - LT system paper (EMNLP 2023 Demo): https://aclanthology.org/2023.emnlp-demo.2.pdf
-- BOOM: Beyond Only One Modality KIT's Multilingual Multimodal Lecture Companion (in review)
+- BOOM: Beyond Only One Modality KIT's Multilingual Multimodal Lecture Companion (in review): https://arxiv.org/abs/2512.02817
 
 
 ## Note
