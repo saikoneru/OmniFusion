@@ -73,6 +73,8 @@ Additionally install gradio
 pip install gradio
 ```
 
+Or you can use the Docker container [here](https://github.com/saikoneru/image-translator/tree/main/src/image_translator/multimodal_translator)
+
 ## 2. Sample Inference
 
 ### Load Model
