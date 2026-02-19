@@ -135,6 +135,6 @@ def create_gradio_interface(system: OmniFusionModel) -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    system = OmniFusionModel(cache_dir="")
+    system = OmniFusionModel(checkpoint_path="skoneru/OmniFusion_v2" ,cache_dir="/export/data1/skoneru/hf_cache/")
     demo = create_gradio_interface(system)
-    demo.launch(server_name="0.0.0.0", server_port=7979)
+    demo.launch(server_name="0.0.0.0", server_port=7860)
