@@ -46,7 +46,7 @@ class FusableMistralModel(MistralModel):
         for name, param in self.omni_model.named_parameters():
             param.requires_grad = False
 
-        self.tokenizer = AutoTokenizer.from_pretrained("ByteDance-Seed/Seed-X-PPO-7B", cache_dir="/export/data1/skoneru/hf_cache")
+        self.tokenizer = AutoTokenizer.from_pretrained("ByteDance-Seed/Seed-X-PPO-7B")
 
 
     def left_pad_sequence(self, sequences, batch_first=True, padding_value=0.0):
