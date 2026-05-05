@@ -17,7 +17,7 @@ from omni_fusion_model import OmniFusionModel
 CACHE_DIR      = os.getenv("HF_HOME", "/app/hf_cache")
 MODEL_NAME     = os.getenv("MODEL_NAME", "skoneru/OmniFusion_v2")
 HOST           = os.getenv("FLASK_HOST", "0.0.0.0")
-PORT           = int(os.getenv("FLASK_PORT", "8088"))
+PORT           = int(os.getenv("FLASK_PORT", "8001"))
 MAX_BATCH_SIZE = int(os.getenv("MAX_BATCH_SIZE", "2"))
 BATCH_TIMEOUT  = float(os.getenv("BATCH_TIMEOUT", "0.05"))  # seconds
 

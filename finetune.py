@@ -34,7 +34,7 @@ from transformers import (
 from peft import get_peft_model, LoraConfig
 
 from models.fusable_omni_mistral import FusableMistralForCausalLM
-from data_collators.streaming_embed_collator import SpeechTranslationDataCollator
+from data_collators.streaming_embed_collator import MultiModalDataCollator
 
 
 set_seed(42)
@@ -163,7 +163,7 @@ def main():
     )
     omni_processor.tokenizer.padding_side = "right"
 
-    collator = SpeechTranslationDataCollator(
+    collator = MultiModalDataCollator(
         tokenizer=tokenizer,
         omni_processor=omni_processor,
     )
