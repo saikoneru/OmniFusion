@@ -139,30 +139,41 @@ class OmniFusionProcessor:
     def prepare_batch(
         self,
         inputs: List[TranslationInput],
-        target_lang: str,
+        target_langs: List[str],
         use_cot: bool = False,
     ) -> Dict[str, torch.Tensor]:
-
+    
+        if len(inputs) != len(target_langs):
+            raise ValueError(
+                "inputs and target_langs must have the same length."
+            )
+    
         conversations = []
         text_inputs = []
-
-        # Build conversations
-        for ti in inputs:
-            conv, txt = self._build_conversation(ti, target_lang, use_cot)
+    
+        for ti, target_lang in zip(inputs, target_langs):
+            conv, txt = self._build_conversation(
+                ti,
+                target_lang,
+                use_cot,
+            )
+    
             conversations.append(conv)
             text_inputs.append(txt)
-
-        # Omni's multimodal encoding
+    
         text = self.omni_processor.apply_chat_template(
-            conversations, add_generation_prompt=False, tokenize=False
+            conversations,
+            add_generation_prompt=False,
+            tokenize=False,
         )
-
+    
         audios, images, videos = process_mm_info(
-            conversations, use_audio_in_video=self.USE_AUDIO_IN_VIDEO
+            conversations,
+            use_audio_in_video=self.USE_AUDIO_IN_VIDEO,
         )
-
+    
         images = self._resize_images(images)
-
+    
         omni_inputs = self.omni_processor(
             text=text,
             audio=audios,
@@ -173,8 +184,7 @@ class OmniFusionProcessor:
             truncation=False,
             use_audio_in_video=self.USE_AUDIO_IN_VIDEO,
         ).to(self.device)
-
-        # Tokenize the text tower inputs
+    
         text_inputs_tok = self.text_tokenizer(
             text_inputs,
             max_length=512,
@@ -182,11 +192,17 @@ class OmniFusionProcessor:
             add_special_tokens=False,
             padding="longest",
         ).to(self.device)
-
-        # Combine token IDs
-        concat_ids = self._concatenate_input_ids(omni_inputs, text_inputs_tok)
-
-        return self._build_final_inputs(omni_inputs, text_inputs_tok, concat_ids)
+    
+        concat_ids = self._concatenate_input_ids(
+            omni_inputs,
+            text_inputs_tok,
+        )
+    
+        return self._build_final_inputs(
+            omni_inputs,
+            text_inputs_tok,
+            concat_ids,
+        )
 
     # -----------------------------------------------------------------------
     # ID Concatenation
