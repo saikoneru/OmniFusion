@@ -193,9 +193,9 @@ class OmniFusionModel:
                 do_sample=False,
                 num_return_sequences=1,
                 no_repeat_ngram_size=5,
-                logits_to_keep=1,
                 eos_token_id=eos_token_ids, ## In case you want to stop at new line as well
             )
+                            # logits_to_keep=1, removed somehow its slower
             print(f"Generation time: {time.time() - start:.2f}s")
 
         # Decode new tokens only
