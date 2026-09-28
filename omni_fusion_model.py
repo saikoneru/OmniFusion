@@ -1,6 +1,6 @@
 import time
 import torch
-from typing import List, Optional, Tuple, Dict
+from typing import List, Optional, Tuple, Dict, Union
 
 from transformers import (
     AutoTokenizer,
@@ -133,59 +133,78 @@ class OmniFusionModel:
     # ---------------------------------------------------
     # Public API: Translate batch
     # ---------------------------------------------------
+    
     def translate(
         self,
         audio_paths: List[Optional[str]],
         image_paths: List[Optional[str]],
         source_texts: List[str],
-        target_lang: str,
+        target_lang: Union[str, List[str]],
         use_cot: bool = False,
         num_beams: int = 5,
         max_new_tokens: int = 256,
         eos_newline: bool = False,
     ) -> List[str]:
-        """
-        Perform batch multimodal translation or speech transcription.
-        Accepts any combination of:
-            - audio only
-            - image + text
-            - audio + image
-        """
-
-        # Normalize lengths
-        max_len = max(len(audio_paths), len(image_paths), len(source_texts))
-
-        audio_paths = audio_paths + [None] * (max_len - len(audio_paths))
-        image_paths = image_paths + [None] * (max_len - len(image_paths))
-        source_texts = source_texts + [""] * (max_len - len(source_texts))
-
-        # Construct input objects
+    
+        max_len = max(
+            len(audio_paths),
+            len(image_paths),
+            len(source_texts),
+        )
+    
+        audio_paths = audio_paths + [None] * (
+            max_len - len(audio_paths)
+        )
+    
+        image_paths = image_paths + [None] * (
+            max_len - len(image_paths)
+        )
+    
+        source_texts = source_texts + [""] * (
+            max_len - len(source_texts)
+        )
+    
+        if isinstance(target_lang, str):
+            target_langs = [target_lang] * max_len
+        else:
+            target_langs = list(target_lang)
+    
+            if len(target_langs) != max_len:
+                raise ValueError(
+                    "target_lang list must have the same length as the batch."
+                )
+    
         inputs = [
             TranslationInput(audio, image, text)
-            for audio, image, text in zip(audio_paths, image_paths, source_texts)
+            for audio, image, text in zip(
+                audio_paths,
+                image_paths,
+                source_texts,
+            )
         ]
-
+    
         if not inputs:
             return []
-
-        # Build fused model input tensors
+    
         batch_inputs = self.processor.prepare_batch(
-            inputs, target_lang, use_cot
+            inputs,
+            target_langs,
+            use_cot,
         )
+    
         batch_inputs["beam_size"] = num_beams
-
+    
         model_eos = self.tokenizer.eos_token_id
         newline_id = self.tokenizer.convert_tokens_to_ids("\n")
-
+    
         if eos_newline:
             eos_token_ids = [newline_id, model_eos]
         else:
             eos_token_ids = [model_eos]
-        
-        # Generate output text
+    
         with torch.inference_mode():
             start = time.time()
-            
+    
             output = self.fuse_model.generate(
                 **batch_inputs,
                 max_new_tokens=max_new_tokens,
@@ -193,16 +212,21 @@ class OmniFusionModel:
                 do_sample=False,
                 num_return_sequences=1,
                 no_repeat_ngram_size=5,
-                eos_token_id=eos_token_ids, ## In case you want to stop at new line as well
+                eos_token_id=eos_token_ids,
+                logits_to_keep=1,
             )
-                            # logits_to_keep=1, removed somehow its slower
-            print(f"Generation time: {time.time() - start:.2f}s")
-
-        # Decode new tokens only
+    
+            print(
+                f"Generation time batch={max_len}: "
+                f"{time.time() - start:.2f}s"
+            )
+    
         prefix_len = batch_inputs["input_ids"].shape[1]
+    
         translations = self.tokenizer.batch_decode(
-            output[:, prefix_len:], skip_special_tokens=True
+            output[:, prefix_len:],
+            skip_special_tokens=True,
         )
-
+    
         return translations
 
